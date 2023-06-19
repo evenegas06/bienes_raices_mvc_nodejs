@@ -1,13 +1,9 @@
 import express from 'express';
+import { loginForm, registerForm } from '../controllers/userController.js';
 
 const router = express.Router();
 
-router.get('/', (request, response) => {
-    response.send('Hola Mundo!!');
-});
-
-router.get('/info', (request, response) => {
-    response.json({ message: 'Información no disponible.' });
-});
+router.get('/login', loginForm);
+router.get('/register', registerForm);
 
 export default router;
