@@ -1,8 +1,9 @@
 {
   "name": "bienes_raices_mvc",
   "version": "1.0.0",
-  "description": "Primer projecto del curso Node.js - Bootcamp",
+  "description": "Primer proyecto del curso Node.js - Bootcamp",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node ./index.js",
     "dev": "nodemon ./index.js"
