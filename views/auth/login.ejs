@@ -1,9 +1,7 @@
 <%- include('../layouts/header') %>
 
-<% if (auth) { %>
-    <h1 class="text-center text-2xl font-extrabold">Bienvenido</h1>
-<% } else { %>
-    <p>Iniciar sesión</p>
-<% } %>
+<div class="py-10">
+    <h1><%= title %></h1>
+</div>
 
 <%- include('../layouts/footer') %>

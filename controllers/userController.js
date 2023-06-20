@@ -6,6 +6,6 @@ export const loginForm = (request, response) => {
 
 export const registerForm = (request, response) => {
     response.render('auth/register', {
-        auth: true
+        title: "Crear cuenta"
     });
 };
