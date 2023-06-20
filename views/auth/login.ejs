@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('../layouts/header') %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
+<% if (auth) { %>
+    <h1 class="text-center text-2xl font-extrabold">Bienvenido</h1>
+<% } else { %>
+    <p>Iniciar sesión</p>
+<% } %>
 
-<body>
-    <% if (auth) { %>
-        <h1>Bienvenido</h1>
-    <% } else { %>
-        <p>Iniciar sesión</p>
-    <% } %>
-
-</body>
-
-</html>
+<%- include('../layouts/footer') %>

@@ -1,17 +1,20 @@
 import express from 'express';
 import user_routes from './routes/user.js';
 
-// Create app
+/* ----- Create app ----- */
 const app = express();
 
-// Habilitar el motor de plantillas
+/* ----- Template engine ----- */
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-// Routing
+/* ----- Public folder (Static files) ----- */
+app.use(express.static('./public'));
+
+/* ----- Routing ----- */
 app.use('/auth', user_routes);
 
-// Port and init server
+/* ----- Port and init server ----- */
 const port = 3000;
 app.listen(port, () => {
     console.log(`El servidor esta escuchando en el puerto ${port} -> http://localhost:3000`);
