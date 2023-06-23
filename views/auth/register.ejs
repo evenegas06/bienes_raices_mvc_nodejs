@@ -8,6 +8,86 @@
     <h2 class="text-center text-2xl font-extrabold">
         <%= title %>
     </h2>
+
+    <div class="mt-8 mx-auto max-w-md">
+        <div class="bg-white py-8 px-4 shadow">
+            <form class="space-y-5">
+                <div>
+                    <label 
+                        for="name" 
+                        class="block text-sm uppercase text-gray-500 mb-2 font-bold"
+                    >
+                        Tu nombre
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Tu nombre"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400"
+                    />
+                </div>
+
+                <div>
+                    <label 
+                        for="email" 
+                        class="block text-sm uppercase text-gray-500 mb-2 font-bold"
+                    >
+                        Correo electrónico de registro
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Tu correo"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400"
+                    />
+                </div>
+
+                <div>
+                    <label 
+                        for="password" 
+                        class="block text-sm uppercase text-gray-500 mb-2 font-bold"
+                    >
+                        Contraseña
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Tu contraseña ***"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400"
+                    />
+                </div>
+
+                <div>
+                    <label 
+                        for="repeat_password" 
+                        class="block text-sm uppercase text-gray-500 mb-2 font-bold"
+                    >
+                        Tu nombre
+                    </label>
+
+                    <input
+                        type="password"
+                        id="repeat_password"
+                        name="repeat_password"
+                        placeholder="Repite tu contraseña ***"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400"
+                    />
+                </div>
+
+                <input
+                    type="submit"
+                    value="Crear cuenta"
+                    class="w-full bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-3 cursor-pointer"
+                />
+            </form>
+        </div>
+    </div>
 </div>
 
 <%- include('../layouts/footer') %>
