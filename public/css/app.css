@@ -547,6 +547,12 @@ video {
 .flex-col {
   flex-direction: column;
 }
+.items-center {
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
 .space-y-5 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
@@ -617,6 +623,10 @@ video {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
 .font-bold {
   font-weight: 700;
 }
@@ -636,6 +646,13 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.text-blue-400 {
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity));
+}
+.underline {
+  text-decoration-line: underline;
 }
 .placeholder-gray-400::-moz-placeholder {
   --tw-placeholder-opacity: 1;

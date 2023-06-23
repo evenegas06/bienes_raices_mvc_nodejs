@@ -1,4 +1,5 @@
 /**
+ * Show login form.
  * 
  * @param {*} request 
  * @param {*} response 
@@ -10,6 +11,7 @@ export const loginForm = (request, response) => {
 };
 
 /**
+ * Show register form.
  * 
  * @param {*} request 
  * @param {*} response 
@@ -21,6 +23,7 @@ export const registerForm = (request, response) => {
 };
 
 /**
+ * Show forgot password form.
  * 
  * @param {*} request 
  * @param {*} response 
