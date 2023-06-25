@@ -1,8 +1,11 @@
+import express from 'express';
+import User from '../models/User.js';
+
 /**
  * Show login form.
  * 
- * @param {import("express").Request} request 
- * @param {import("express").Response} response 
+ * @param {express.Request} request 
+ * @param {express.Response} response 
  */
 export const loginForm = (request, response) => {
     response.render('auth/login', {
@@ -13,8 +16,8 @@ export const loginForm = (request, response) => {
 /**
  * Show register form.
  * 
- * @param {import("express").Request} request 
- * @param {import("express").Response} response 
+ * @param {express.Request} request 
+ * @param {express.Response} response 
  */
 export const registerForm = (request, response) => {
     response.render('auth/register', {
@@ -25,18 +28,20 @@ export const registerForm = (request, response) => {
 /**
  * Save new user on data base.
  * 
- * @param {import("express").Request} request 
- * @param {import("express").Response} response 
+ * @param {express.Request} request 
+ * @param {express.Response} response 
  */
-export const register = (request, response) => {
-    console.log(request.body);
+export const register = async (request, response) => {
+    const user = await User.create(request.body);
+
+    response.json(user);
 };
 
 /**
  * Show forgot password form.
  * 
- * @param {import("express").Request} request 
- * @param {import("express").Response} response 
+ * @param {express.Request} request 
+ * @param {express.Response} response 
  */
 export const forgotPasswordForm = (request, response) => {
     response.render('auth/forgot-password', {
