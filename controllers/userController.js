@@ -1,5 +1,6 @@
 import express from 'express';
 import User from '../models/User.js';
+import { check, validationResult } from 'express-validator';
 
 /**
  * Show login form.
@@ -21,19 +22,49 @@ export const loginForm = (request, response) => {
  */
 export const registerForm = (request, response) => {
     response.render('auth/register', {
-        title: "Crear cuenta"
+        title: 'Crear cuenta'
     });
 };
 
 /**
- * Save new user on data base.
+ * Save new user on database.
  * 
  * @param {express.Request} request 
  * @param {express.Response} response 
  */
 export const register = async (request, response) => {
-    const user = await User.create(request.body);
+    /* Validation rules */
+    await check('name')
+        .notEmpty()
+        .withMessage('El nombre es obligatorio. 😾')
+        .run(request);
 
+    await check('email')
+        .isEmail()
+        .withMessage('Formato de correo electrónico incorrecto. 😾')
+        .run(request);
+
+    await check('password')
+        .isLength({ min: 6 })
+        .withMessage('La contraseña debe ser de al menos 6 caracteres. 😾')
+        .run(request);
+
+    await check('repeat_password')
+        .equals('password')
+        .withMessage('Las contraseñas no coinciden. 😾')
+        .run(request);
+
+    const validation = validationResult(request);
+
+    if (!validation.isEmpty()) {
+        /* --- Errors --- */
+        return response.render('auth/register', {
+            title: 'Crear cuenta',
+            errors: validation.array()
+        });
+    }
+
+    const user = await User.create(request.body);
     response.json(user);
 };
 
