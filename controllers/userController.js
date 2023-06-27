@@ -34,6 +34,8 @@ export const registerForm = (request, response) => {
  * @param {express.Response} response 
  */
 export const register = async (request, response) => {
+    const { name, email, password } = request.body;
+
     /* Validation rules */
     await check('name')
         .notEmpty()
@@ -51,21 +53,33 @@ export const register = async (request, response) => {
         .run(request);
 
     await check('repeat_password')
-        .equals('password')
+        .equals(password)
         .withMessage('Las contraseñas no coinciden.')
         .run(request);
 
+    /* Input errors */
     const validation = validationResult(request);
 
     if (!validation.isEmpty()) {
-        console.log(validation.array());
-        /* --- Errors --- */
         return response.render('auth/register', {
             title: 'Crear cuenta',
             errors: validation.array(),
             user: {
-                name: request.body.name,
-                email: request.body.email,
+                name: name,
+                email: email,
+            }
+        });
+    }
+
+    /* Check if email exists on database */
+    const user_exists = await User.findOne({ where: { email } });
+
+    if (user_exists) {
+        return response.render('auth/register', {
+            title: 'Crear cuenta',
+            errors: [{ msg: 'Este correo ya se ha registrado, intenta con otro.' }],
+            user: {
+                name: name,
             }
         });
     }
