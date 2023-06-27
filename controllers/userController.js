@@ -84,8 +84,13 @@ export const register = async (request, response) => {
         });
     }
 
-    const user = await User.create(request.body);
-    response.json(user);
+    /* Save user on database */
+    await User.create({
+        name,
+        email,
+        password,
+        token: 123
+    });
 };
 
 /**
