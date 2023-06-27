@@ -2,6 +2,7 @@ import express from 'express';
 import { check, validationResult } from 'express-validator';
 
 import User from '../models/User.js';
+import { generateID } from '../helpers/helpers.js';
 
 /**
  * Show login form.
@@ -64,10 +65,7 @@ export const register = async (request, response) => {
         return response.render('auth/register', {
             title: 'Crear cuenta',
             errors: validation.array(),
-            user: {
-                name: name,
-                email: email,
-            }
+            user: { name, email }
         });
     }
 
@@ -78,9 +76,7 @@ export const register = async (request, response) => {
         return response.render('auth/register', {
             title: 'Crear cuenta',
             errors: [{ msg: 'Este correo ya se ha registrado, intenta con otro.' }],
-            user: {
-                name: name,
-            }
+            user: { name }
         });
     }
 
@@ -89,7 +85,13 @@ export const register = async (request, response) => {
         name,
         email,
         password,
-        token: 123
+        token: generateID()
+    });
+
+    /* Confirm message */
+    response.render('templates/message', {
+        title: 'Confirmación de correo electrónico',
+        message: 'Se ha enviado un email de confirmación al correo electrónico registrado.'
     });
 };
 
