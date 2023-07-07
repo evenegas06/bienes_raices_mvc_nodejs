@@ -3,6 +3,7 @@ import { check, validationResult } from 'express-validator';
 
 import User from '../models/User.js';
 import { generateID } from '../helpers/helpers.js';
+import { registerEmail } from '../utils/emails.js';
 
 /**
  * Show login form.
@@ -60,7 +61,6 @@ export const register = async (request, response) => {
 
     /* Input errors */
     const validation = validationResult(request);
-
     if (!validation.isEmpty()) {
         return response.render('auth/register', {
             title: 'Crear cuenta',
@@ -71,7 +71,6 @@ export const register = async (request, response) => {
 
     /* Check if email exists on database */
     const user_exists = await User.findOne({ where: { email } });
-
     if (user_exists) {
         return response.render('auth/register', {
             title: 'Crear cuenta',
@@ -81,11 +80,18 @@ export const register = async (request, response) => {
     }
 
     /* Save user on database */
-    await User.create({
+    const user = await User.create({
         name,
         email,
         password,
         token: generateID()
+    });
+
+    /* Send confirmation email */
+    registerEmail({
+        name: user.name,
+        email: user.email,
+        token: user.token
     });
 
     /* Confirm message */
