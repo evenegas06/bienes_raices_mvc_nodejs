@@ -30,7 +30,7 @@ app.use(express.static('./public'));
 app.use('/auth', user_routes);
 
 /* ----- Port and init server ----- */
-const port = 3000;
+const port = process.env.PORT ?? 3000;
 app.listen(port, () => {
     console.log(`Server listening on port ${port} -> http://localhost:3000`);
 });

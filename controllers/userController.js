@@ -94,11 +94,23 @@ export const register = async (request, response) => {
         token: user.token
     });
 
-    /* Confirm message */
+    /* Confirm view */
     response.render('templates/message', {
         title: 'Confirmación de correo electrónico',
         message: 'Se ha enviado un email de confirmación al correo electrónico registrado.'
     });
+};
+
+/**
+ * Confirm account by token.
+ * 
+ * @param {express.Request} request 
+ * @param {express.Response} response 
+ */
+export const confirmAccount = (request, response, next) => {
+    console.log(request.params.token);
+
+    next();
 };
 
 /**

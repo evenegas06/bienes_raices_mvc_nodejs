@@ -29,7 +29,9 @@ export const registerEmail = async (data) => {
             
             <p>
                 Para terminar el proceso de registro necesitamos que confirmes tu cuenta en el siguiente enlace:
-                <a href="">Confirmar cuenta</a>
+                <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3000}/auth/confirmar-cuenta/${token}">
+                    Confirmar cuenta
+                </a>
             </p>
 
             <p>
