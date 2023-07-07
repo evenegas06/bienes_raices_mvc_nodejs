@@ -14,7 +14,7 @@ router.get('/iniciar-sesion', loginForm);
 
 router.get('/registro', registerForm);
 router.post('/registro', register);
-router.get('confirmar-cuenta/:token', confirmAccount);
+router.get('/confirmar-cuenta/:token', confirmAccount);
 
 router.get('/olvide-contrasena', forgotPasswordForm);
 

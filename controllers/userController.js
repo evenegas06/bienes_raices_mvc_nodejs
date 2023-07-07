@@ -107,10 +107,20 @@ export const register = async (request, response) => {
  * @param {express.Request} request 
  * @param {express.Response} response 
  */
-export const confirmAccount = (request, response, next) => {
-    console.log(request.params.token);
+export const confirmAccount = async (request, response) => {
+    const user = await User.findOne({
+        where: {
+            token: request.params.token,
+        }
+    });
 
-    next();
+    if (!user) {
+        response.render('auth/confirm-account', {
+            title: 'Error al confirmar cuenta. ❌',
+            message: 'Hubo un error al confirmar tu cuenta, por favor intenta de nuevo.',
+            error: true,
+        });
+    }
 };
 
 /**
