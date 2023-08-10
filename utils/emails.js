@@ -35,7 +35,7 @@ export const registerEmail = async (data) => {
             </p>
 
             <p>
-                Si no has sido tu quien creará esta cuenta, puedes ignorar el mensaje
+                Si no has sido tu quien creó esta cuenta, puedes ignorar el mensaje.
             </p>
         `,
     });

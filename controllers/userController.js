@@ -115,12 +115,23 @@ export const confirmAccount = async (request, response) => {
     });
 
     if (!user) {
-        response.render('auth/confirm-account', {
+        return response.render('auth/confirm-account', {
             title: 'Error al confirmar cuenta. ❌',
             message: 'Hubo un error al confirmar tu cuenta, por favor intenta de nuevo.',
             error: true,
         });
     }
+
+    user.token = null;
+    user.confirm = true;
+
+    await user.save();
+
+    response.render('auth/confirm-account', {
+        title: 'Cuenta confirmada',
+        message: 'La cuenta se confirmó correctamente.',
+        error: false,
+    });
 };
 
 /**
