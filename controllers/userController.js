@@ -24,8 +24,10 @@ export const loginForm = (request, response) => {
  * @param {express.Response} response 
  */
 export const registerForm = (request, response) => {
+    console.log(request.csrfToken());
     response.render('auth/register', {
-        title: 'Crear cuenta'
+        title: 'Crear cuenta',
+        csrfToken: request.csrfToken(),
     });
 };
 
@@ -38,7 +40,7 @@ export const registerForm = (request, response) => {
 export const register = async (request, response) => {
     const { name, email, password } = request.body;
 
-    /* Validation rules */
+    /* ----- Validation rules ----- */
     await check('name')
         .notEmpty()
         .withMessage('El nombre es obligatorio.')
@@ -59,27 +61,29 @@ export const register = async (request, response) => {
         .withMessage('Las contraseñas no coinciden.')
         .run(request);
 
-    /* Input errors */
+    /* ----- Input errors ----- */
     const validation = validationResult(request);
     if (!validation.isEmpty()) {
         return response.render('auth/register', {
             title: 'Crear cuenta',
             errors: validation.array(),
-            user: { name, email }
+            user: { name, email },
+            csrfToken: request.csrfToken(),
         });
     }
 
-    /* Check if email exists on database */
+    /* ----- Check if email exists on database ----- */
     const user_exists = await User.findOne({ where: { email } });
     if (user_exists) {
         return response.render('auth/register', {
             title: 'Crear cuenta',
             errors: [{ msg: 'Este correo ya se ha registrado, intenta con otro.' }],
-            user: { name }
+            user: { name },
+            csrfToken: request.csrfToken(),
         });
     }
 
-    /* Save user on database */
+    /* ----- Save user on database ----- */
     const user = await User.create({
         name,
         email,
@@ -87,14 +91,14 @@ export const register = async (request, response) => {
         token: generateID()
     });
 
-    /* Send confirmation email */
+    /* ----- Send confirmation email ----- */
     registerEmail({
         name: user.name,
         email: user.email,
         token: user.token
     });
 
-    /* Confirm view */
+    /* ----- Confirm view ----- */
     response.render('templates/message', {
         title: 'Confirmación de correo electrónico',
         message: 'Se ha enviado un email de confirmación al correo electrónico registrado.'
@@ -122,6 +126,7 @@ export const confirmAccount = async (request, response) => {
         });
     }
 
+    /* ----- Delete token and save ----- */
     user.token = null;
     user.confirm = true;
 

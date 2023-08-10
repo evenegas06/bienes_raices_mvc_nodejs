@@ -24,6 +24,7 @@
     <div class="mt-8 mx-auto max-w-md">
         <div class="bg-white py-8 px-4 shadow">
             <form class="space-y-5" action="/auth/registro" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div>
                     <label 
                         for="name" 
