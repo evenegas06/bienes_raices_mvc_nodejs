@@ -207,9 +207,22 @@ export const resetPassword = async (request, response) => {
  * @param {express.Request} request 
  * @param {express.Response} response 
  */
-export const verifyToken = async (request, response, next) => {
-    console.log('token', request.params.token);
-    next();
+export const verifyToken = async (request, response) => {
+    const token = request.params.token;
+    
+    const user = await User.findOne({
+        where: {
+            token: token
+        }
+    });
+
+    if (!user) {
+        return response.render('auth/confirm-account', {
+            title: 'Restablece tu contraseña',
+            message: 'Hubo un error al validar tu información, intenta de nuevo.',
+            error: true,
+        });
+    }
 };
 
 /**
