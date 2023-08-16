@@ -1,5 +1,6 @@
 import express from 'express';
 import { check, validationResult } from 'express-validator';
+import bcrypt from 'bcrypt';
 
 import User from '../models/User.js';
 import { generateID } from '../helpers/helpers.js';
@@ -202,14 +203,15 @@ export const resetPassword = async (request, response) => {
 };
 
 /**
- * Reset password.
+ * Verify token and show reset password form.
  * 
  * @param {express.Request} request 
  * @param {express.Response} response 
  */
 export const verifyToken = async (request, response) => {
     const token = request.params.token;
-    
+
+    /* ----- Find user ----- */
     const user = await User.findOne({
         where: {
             token: token
@@ -223,12 +225,54 @@ export const verifyToken = async (request, response) => {
             error: true,
         });
     }
+
+    response.render('auth/reset-password', {
+        title: 'Restablecer contraseña',
+        csrfToken: request.csrfToken(),
+    });
 };
 
 /**
- * Reset password.
+ * Save new password on database.
  * 
  * @param {express.Request} request 
  * @param {express.Response} response 
  */
-export const createNewPassword = async (request, response) => { }; 
+export const createNewPassword = async (request, response) => {
+    /* ----- Validation rules ----- */
+    await check('new_password')
+        .isLength({ min: 6 })
+        .withMessage('La contraseña debe ser de al menos 6 caracteres.')
+        .run(request);
+
+    const validation = validationResult(request);
+
+    if (!validation.isEmpty()) {
+        return response.render('auth/reset-password', {
+            title: 'Restablece tu contraseña.',
+            csrfToken: request.csrfToken(),
+            errors: validation.array(),
+        });
+    }
+
+    /* ----- Identify user ----- */
+    const user = await User.findOne({
+        where: {
+            token: request.params.token,
+        }
+    });
+
+    /* ----- Save password ande delete token ----- */
+    const salt = await bcrypt.genSalt(10);
+    
+    user.password = await bcrypt.hash(request.body.new_password, salt);
+    user.token = null;
+
+    await user.save();
+
+    response.render('auth/confirm-account', {
+        title: 'Contraseña restablecida',
+        message: 'La contraseña se guardó correctamente. 😎',
+        error: false
+    });
+}; 
