@@ -3,7 +3,7 @@ import { check, validationResult } from 'express-validator';
 
 import User from '../models/User.js';
 import { generateID } from '../helpers/helpers.js';
-import { registerEmail } from '../utils/emails.js';
+import { registerEmail, resetPasswordEmail } from '../utils/emails.js';
 
 /**
  * Show login form.
@@ -24,7 +24,6 @@ export const loginForm = (request, response) => {
  * @param {express.Response} response 
  */
 export const registerForm = (request, response) => {
-    console.log(request.csrfToken());
     response.render('auth/register', {
         title: 'Crear cuenta',
         csrfToken: request.csrfToken(),
@@ -147,6 +146,76 @@ export const confirmAccount = async (request, response) => {
  */
 export const forgotPasswordForm = (request, response) => {
     response.render('auth/forgot-password', {
-        title: 'Recupera tu acceso. 😎'
+        title: 'Recupera tu acceso. 😎',
+        csrfToken: request.csrfToken(),
     });
 };
+
+/**
+ * Reset password.
+ * 
+ * @param {express.Request} request 
+ * @param {express.Response} response 
+ */
+export const resetPassword = async (request, response) => {
+    /* ----- Validation rules ----- */
+    await check('email')
+        .isEmail()
+        .withMessage('Formato de correo electrónico incorrecto.')
+        .run(request);
+
+    /* ----- Input errors ----- */
+    const validation = validationResult(request);
+    if (!validation.isEmpty()) {
+        return response.render('auth/forgot-password', {
+            title: 'Recupera tu acceso. 😎',
+            csrfToken: request.csrfToken(),
+            errors: validation.array(),
+        });
+    }
+
+    /* ----- Find user ----- */
+    const user = await User.findOne({
+        where: {
+            email: request.body.email
+        }
+    });
+
+    if (!user) {
+        return response.render('auth/forgot-password', {
+            title: 'Recupera tu acceso. 😎',
+            csrfToken: request.csrfToken(),
+            errors: [{ msg: 'El email ingresado no existe en nuestros registros.' }]
+        });
+    }
+
+    /* ----- Generate new token and send email ----- */
+    user.token = generateID();
+    await user.save();
+
+    resetPasswordEmail(user);
+
+    response.render('templates/message', {
+        title: 'Restablece tu contraseña.',
+        message: 'Se ha enviado un email con las instrucciones para restablecer tu contraseña.'
+    });
+};
+
+/**
+ * Reset password.
+ * 
+ * @param {express.Request} request 
+ * @param {express.Response} response 
+ */
+export const verifyToken = async (request, response, next) => {
+    console.log('token', request.params.token);
+    next();
+};
+
+/**
+ * Reset password.
+ * 
+ * @param {express.Request} request 
+ * @param {express.Response} response 
+ */
+export const createNewPassword = async (request, response) => { }; 

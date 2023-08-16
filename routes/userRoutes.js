@@ -5,18 +5,28 @@ import {
     registerForm,
     forgotPasswordForm,
     register,
-    confirmAccount
+    confirmAccount,
+    resetPassword,
+    verifyToken,
+    createNewPassword,
 } from '../controllers/userController.js';
 
 const router = express.Router();
 
 router.get('/iniciar-sesion', loginForm);
 
-router.get('/registro', registerForm);
-router.post('/registro', register);
+router.route('/registro')
+    .get(registerForm)
+    .post(register);
 
 router.get('/confirmar-cuenta/:token', confirmAccount);
 
-router.get('/olvide-contrasena', forgotPasswordForm);
+router.route('/olvide-contrasena')
+    .get(forgotPasswordForm)
+    .post(resetPassword);
+
+router.route('/olvide-contrasena/:token')
+    .get(verifyToken)
+    .post(createNewPassword);
 
 export default router;
