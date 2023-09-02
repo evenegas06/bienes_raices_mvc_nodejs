@@ -9,9 +9,21 @@
         <%= title %>
     </h2>
 
+    <!-- Show errors when submit form -->
+    <% if (typeof errors !== 'undefined') { %>
+        <div class="max-w-md mx-auto my-10">
+            <% errors.forEach((error) => { %>
+                <p class="bg-red-600 text-white uppercase text-xs text-center p-2 mb-1 font-bold">
+                    <%= error.msg %>
+                </p>
+            <% }) %>
+        </div>
+    <% } %>
+
     <div class="mt-8 mx-auto max-w-md">
         <div class="bg-white py-8 px-4 shadow">
-            <form class="space-y-5">
+            <form class="space-y-5" method="POST" action="/auth/iniciar-sesion">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div>
                     <label 
                         for="email" 

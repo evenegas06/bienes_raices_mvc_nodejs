@@ -14,8 +14,39 @@ import { registerEmail, resetPasswordEmail } from '../utils/emails.js';
  */
 export const loginForm = (request, response) => {
     response.render('auth/login', {
-        title: 'Iniciar sesión'
+        title: 'Iniciar sesión',
+        csrfToken: request.csrfToken(),
     });
+};
+
+/**
+ * User authentication.
+ * 
+ * @param {express.Request} request 
+ * @param {express.Response} response 
+ */
+export const authenticate = async (request, response) => {
+    /* ----- Validation rules ----- */
+    await check('email')
+        .isEmail()
+        .withMessage('Formato de correo electrónico incorrecto.')
+        .run(request);
+
+    await check('password')
+        .isLength({ min: 6 })
+        .withMessage('La contraseña debe ser de al menos 6 caracteres.')
+        .run(request);
+
+    /* ----- Input errors ----- */
+    const validation = validationResult(request);
+
+    if (!validation.isEmpty()) {
+        return response.render('auth/login', {
+            title: 'Iniciar sesión',
+            errors: validation.array(),
+            csrfToken: request.csrfToken(),
+        });
+    }
 };
 
 /**
@@ -63,6 +94,7 @@ export const register = async (request, response) => {
 
     /* ----- Input errors ----- */
     const validation = validationResult(request);
+
     if (!validation.isEmpty()) {
         return response.render('auth/register', {
             title: 'Crear cuenta',
@@ -74,6 +106,7 @@ export const register = async (request, response) => {
 
     /* ----- Check if email exists on database ----- */
     const user_exists = await User.findOne({ where: { email } });
+
     if (user_exists) {
         return response.render('auth/register', {
             title: 'Crear cuenta',
@@ -264,7 +297,7 @@ export const createNewPassword = async (request, response) => {
 
     /* ----- Save password ande delete token ----- */
     const salt = await bcrypt.genSalt(10);
-    
+
     user.password = await bcrypt.hash(request.body.new_password, salt);
     user.token = null;
 

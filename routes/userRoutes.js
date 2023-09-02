@@ -9,11 +9,14 @@ import {
     resetPassword,
     verifyToken,
     createNewPassword,
+    authenticate,
 } from '../controllers/userController.js';
 
 const router = express.Router();
 
-router.get('/iniciar-sesion', loginForm);
+router.route('/iniciar-sesion')
+    .get(loginForm)
+    .post(authenticate);
 
 router.route('/registro')
     .get(registerForm)
