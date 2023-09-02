@@ -47,6 +47,30 @@ export const authenticate = async (request, response) => {
             csrfToken: request.csrfToken(),
         });
     }
+
+    /* ----- Check if user exists ----- */
+    const user = await User.findOne({
+        where: {
+            email: request.body.email,
+        }
+    });
+
+    if (!user) {
+        return response.render('auth/login', {
+            title: 'Iniciar sesión',
+            csrfToken: request.csrfToken(),
+            errors: [{ msg: 'El usuario no existe.' }],
+        });
+    }
+
+    /* ----- Check confirmed account ----- */
+    if (!user.confirm) {
+        return response.render('auth/login', {
+            title: 'Iniciar sesión',
+            csrfToken: request.csrfToken(),
+            errors: [{ msg: 'Tu cuenta no ha sido confirmada.' }],
+        });
+    }
 };
 
 /**
