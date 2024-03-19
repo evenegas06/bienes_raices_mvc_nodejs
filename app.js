@@ -39,5 +39,5 @@ app.use('/auth', user_routes);
 /* ----- Port and init server ----- */
 const port = process.env.PORT ?? 3000;
 app.listen(port, () => {
-    console.log(`Server listening on port ${port} -> ${process.env.BACKEND_URL}:${process.env.PORT ?? 3000}`);
+    console.log(`Server listening on port ${port} -> ${process.env.BACKEND_URL}:${port}`);
 });

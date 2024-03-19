@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
 import dotenv from "dotenv";
 
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: '.env' });
 
 /**
  * @see https://sequelize.org/docs/v6/getting-started/
