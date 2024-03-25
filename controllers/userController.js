@@ -86,7 +86,12 @@ export const authenticate = async (request, response) => {
         id: user.id,
         name: user.name,
     });
-    console.log(token);
+
+    return response.cookie('_token', token, {
+        httpOnly: true,
+        // secure: true,
+        // sameSite: true,
+    }).redirect('/mis-propiedades');
 };
 
 /**
