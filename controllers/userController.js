@@ -71,6 +71,15 @@ export const authenticate = async (request, response) => {
             errors: [{ msg: 'Tu cuenta no ha sido confirmada.' }],
         });
     }
+
+    /* ----- Check password ----- */
+    if (!user.verifyPassword(request.body.password)) {
+        return response.render('auth/login', {
+            title: 'Iniciar sesión',
+            csrfToken: request.csrfToken(),
+            errors: [{ msg: 'La contraseña es incorrecta.' }],
+        });
+    }
 };
 
 /**

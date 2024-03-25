@@ -30,4 +30,14 @@ const User = db.define('users', {
     }
 });
 
+/* ----- Custom methods ----- */
+/**
+ * 
+ * @param {String} password 
+ * @returns {Boolean}
+ */
+User.prototype.verifyPassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
+}
+
 export default User;
