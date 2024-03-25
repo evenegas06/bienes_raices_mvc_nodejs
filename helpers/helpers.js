@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 /**
  * Create a random ID.
  * 
@@ -8,4 +10,21 @@ export const generateID = () => {
     const date = Date.now().toString(36);
 
     return random + date;
+};
+
+/**
+ * Generate a JWT.
+ * 
+ * @param {Object} data
+ * @returns {String}
+ */
+export const generateJWT = (data) => {
+    return jwt.sign(
+        {
+            id: data.id,
+            name: data.name,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: '1d' }
+    );
 };

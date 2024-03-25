@@ -3,7 +3,7 @@ import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 
 import User from '../models/User.js';
-import { generateID } from '../helpers/helpers.js';
+import { generateID, generateJWT } from '../helpers/helpers.js';
 import { registerEmail, resetPasswordEmail } from '../utils/emails.js';
 
 /**
@@ -48,13 +48,13 @@ export const authenticate = async (request, response) => {
         });
     }
 
-    /* ----- Check if user exists ----- */
     const user = await User.findOne({
         where: {
             email: request.body.email,
         }
     });
 
+    /* ----- Check if user exists ----- */
     if (!user) {
         return response.render('auth/login', {
             title: 'Iniciar sesión',
@@ -80,6 +80,13 @@ export const authenticate = async (request, response) => {
             errors: [{ msg: 'La contraseña es incorrecta.' }],
         });
     }
+
+    /* ----- Authenticate user ----- */
+    const token = generateJWT({
+        id: user.id,
+        name: user.name,
+    });
+    console.log(token);
 };
 
 /**
