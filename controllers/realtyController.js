@@ -8,6 +8,7 @@ import express from 'express';
  */
 export const admin = (request, response) => {
     response.render('realty/admin', {
-        title: 'Mis propiedades'
+        title: 'Mis propiedades',
+        navbar: true
     });
 };
