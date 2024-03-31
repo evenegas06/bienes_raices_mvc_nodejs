@@ -2,7 +2,8 @@ import express from 'express';
 import csrf from 'csurf';
 import cookieParser from 'cookie-parser';
 
-import user_routes from './routes/userRoutes.js';
+import userRoutes from './routes/userRoutes.js';
+import realtyRoutes from './routes/realtyRoutes.js';
 import db from './config/database.js';
 
 /* ----- Create app ----- */
@@ -19,7 +20,7 @@ app.use(csrf({ cookie: true }));
 try {
     await db.authenticate();
     await db.sync();
-    
+
     console.log('Database connection successful.');
 
 } catch (error) {
@@ -34,7 +35,8 @@ app.set('views', './views');
 app.use(express.static('./public'));
 
 /* ----- Routing ----- */
-app.use('/auth', user_routes);
+app.use('/auth', userRoutes);
+app.use('/', realtyRoutes);
 
 /* ----- Port and init server ----- */
 const port = process.env.PORT ?? 3000;
