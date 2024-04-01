@@ -25,16 +25,120 @@
                         for="title" 
                         class="block mb-2 text-sm font-bold text-gray-500 uppercase"
                     >
-                        Titulo del Anuncio
+                        Título del Anuncio
                     </label>
 
                     <input
                         type="text"
                         id="title"
                         name="title"
-                        placeholder="Titulo de la propiedad, ej. Casa en la Playa"
+                        placeholder="Título de la propiedad, ej. Casa en la Playa"
                         class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md"
                     />
+                </div>
+
+                <div class="space-y-5 md:flex md:gap-4 md:space-y-0">
+                    <div class="md:w-1/2">
+                        <label 
+                            for="category" 
+                            class="block mb-2 text-sm font-bold text-gray-500 uppercase"
+                        >
+                            Categoría
+                        </label>
+
+                        <select
+                            id="category"
+                            name="category"
+                            class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md"
+                        >
+                            <option value="">- Seleccione -</option>
+                        </select>
+                    </div>
+                    
+                    <div class="md:w-1/2">
+                        <label 
+                            for="price" 
+                            class="block mb-2 text-sm font-bold text-gray-500 uppercase"
+                        >
+                            Precio
+                        </label>
+    
+                        <select
+                            id="price"
+                            name="price"
+                            class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md"
+                        >
+                            <option value="">- Seleccione -</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="space-y-5 md:flex md:gap-4 md:space-y-0">
+                    <div class="md:w-1/3">
+                        <label 
+                            for="bedrooms" 
+                            class="block mb-2 text-sm font-bold text-gray-500 uppercase"
+                        >
+                            Habitaciones
+                        </label>
+
+                        <select
+                            id="bedrooms"
+                            name="bedrooms"
+                            class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md"
+                        >
+                            <option value="">- Seleccione -</option>
+                            <% for(i = 0; i <= 5; i++) { %>
+                                <option value="<%= i %>">
+                                    <%= i %>
+                                </option>
+                            <% } %>
+                        </select>
+                    </div>
+                    
+                    <div class="md:w-1/3">
+                        <label 
+                            for="parking" 
+                            class="block mb-2 text-sm font-bold text-gray-500 uppercase"
+                        >
+                            Estacionamiento
+                        </label>
+    
+                        <select
+                            id="parking"
+                            name="parking"
+                            class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md"
+                        >
+                            <option value="">- Seleccione -</option>
+                            <% for(i = 0; i <= 5; i++) { %>
+                                <option value="<%= i %>">
+                                    <%= i %>
+                                </option>
+                            <% } %>
+                        </select>
+                    </div>
+                    
+                    <div class="md:w-1/3">
+                        <label 
+                            for="bathrooms" 
+                            class="block mb-2 text-sm font-bold text-gray-500 uppercase"
+                        >
+                            Numero de Baños
+                        </label>
+    
+                        <select
+                            id="bathrooms"
+                            name="bathrooms"
+                            class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md"
+                        >
+                            <option value="">- Seleccione -</option>
+                            <% for(i = 0; i <= 5; i++) { %>
+                                <option value="<%= i %>">
+                                    <%= i %>
+                                </option>
+                            <% } %>
+                        </select>
+                    </div>
                 </div>
             </div>
         </form>
