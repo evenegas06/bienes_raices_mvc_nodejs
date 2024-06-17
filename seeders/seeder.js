@@ -1,7 +1,11 @@
 import { exit } from "node:process";
 
-import categories from "./categorySeeder";
+import categories from "./categorySeeder.js";
+import prices from "./priceSeeder.js";
+
 import Category from "../models/Category.js";
+import Price from "../models/Price.js";
+
 import db from "../config/database.js";
 
 const importData = async () => {
@@ -13,7 +17,11 @@ const importData = async () => {
         await db.sync();
 
         // Insert data
-        await Category.bulkCreate(categories);
+        await Promise.all([
+            Category.bulkCreate(categories),
+            Price.bulkCreate(prices),
+        ]);
+
         console.log('Import data successful');
         exit();
 
@@ -22,3 +30,7 @@ const importData = async () => {
         exit(1);
     }
 };
+
+if (process.argv[2] === '-i') {
+    importData();
+}

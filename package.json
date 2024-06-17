@@ -9,7 +9,8 @@
     "dev": "nodemon ./app.js",
     "css": "postcss public/css/tailwind.css -o public/css/app.css --watch",
     "js": "webpack --watch",
-    "statics": "concurrently \"npm run css\" \"npm run js\""
+    "statics": "concurrently \"npm run css\" \"npm run js\"",
+    "db:import": "node ./seeders/seeder.js -i"
   },
   "keywords": [
     "node",
